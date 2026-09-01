@@ -1,5 +1,5 @@
 import os
-from dotenv import load_dotenv
+from dotenv import import load_dotenv
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 
@@ -8,13 +8,32 @@ load_dotenv()
 # ==================== تنظیمات توکن ====================
 TOKEN = "8896259846:AAHmFVAugdagw87BReMk6XG4Y0A76zb4ZYY"
 
-# ==================== تنظیمات کانال و پشتیبانی ====================
-CHANNEL_ID = "RemixEmpire2026"
+# ==================== تنظیمات دو کانال ====================
+CHANNEL_1_ID = "RemixEmpire2026"          # کانال اول (مثل کانال آموزشی)
+CHANNEL_2_ID = "RemixEmpire2026"          # کانال دوم (مثل کانال ریمیکس)
+
+# برای هر کانال یک متن و لینک جداگانه
+channel_texts = {
+    CHANNEL_1_ID: {
+        "name": "آموزش و فروش کانفیک",
+        "link_text": "لینک کانال آموزشی 👇",
+        "link_url": "https://t.me/RemixEmpire2026",
+        "verify_text": "عالی! حالا به امپراتوری خوش آمدید 🎧👑"
+    },
+    CHANNEL_2_ID: {
+        "name": "امپراتوری ریمیکس",
+        "link_text": "لینک کانال ریمیکس 👇",
+        "link_url": "https://t.me/RemixEmpire2026",
+        "verify_text": "عالی! حالا به امپراتوری خوش آمدید 🎧👑"
+    }
+}
+
 SUPPORT_ID = "@Yilvf"
 
-# Keyboard مرحله اول (دکمه عضویت در کانال فقط)
-channel_btn = InlineKeyboardButton("عضویت در کانال", callback_data="join_channel")
-keyboard_step1 = InlineKeyboardMarkup([[channel_btn]])
+# Keyboard مرحله اول (دو دکمه)
+btn1 = InlineKeyboardButton("آموزش و فروش کانفیک", callback_data="channel1")
+btn2 = InlineKeyboardButton("امپراتوری ریمیکس", callback_data="channel2")
+keyboard_step1 = InlineKeyboardMarkup([[btn1], [btn2]])
 
 # Keyboard منوی اصلی (۴ دکمه در یک ردیف)
 about_btn = InlineKeyboardButton("درباره ما", callback_data="about")
@@ -26,15 +45,12 @@ keyboard_main_menu = InlineKeyboardMarkup([
 
 # متن‌های خوشامدگویی
 welcome_text = (
-    "به امپراتوری صدا خوش آمدید\n\n"
-    "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
-    "بهترین ریمیکس‌های خاص منتظرتم 👑\n\n"
-    "برای شروع، روی دکمه 'عضویت در کانال' کلیک کنید 👇"
-)
-
-join_text = (
-    "عالی! حالا برو تو کانال عضو شو 👑\n"
-    "وقتی عضو شدی، دوباره اینجا کلیک کن تا به منوی اصلی برسی 👑"
+    "سلام به ربات **دانلود اینستاگرام** فرا** خوش آمدی ✨\n\n"
+    "با من می‌تونی **ریپار، پست، عکس، ویدیو و استوری** اینستاگرام رو دانلود کنی\n\n"
+    "برای استفاد از خدمات حتماً عضو دو کانال اسپانسر شو:\n"
+    "1. آموزش و فروش کانفیک\n"
+    "2. امپراتوری ریمیکس\n\n"
+    "اول عضو شو، بعد روی «عضویت را تایید می‌کنم» بزن 🟢"
 )
 
 about_text = (
@@ -70,35 +86,54 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
-    if query.data == "join_channel":
-        # لینک کانال (دقیقاً طبق خواسته‌ات)
-        channel_link = "https://t.me/RemixEmpire2026"
+    chat_id = query.message.chat_id
+    user_id = query.from_user.id
 
-        await query.message.edit_text(
-            join_text,
-            reply_markup=keyboard_main_menu
-        )
-        # لینک مستقیم به کانال (برای عضویت فوری)
-        await context.bot.send_message(
-            query.message.chat_id,
-            f"لینک کانال: {channel_link}\n\n(کلیک کن و عضو شو 👑)",
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("عضویت در کانال", url=channel_link)]])
-        )
-    elif query.data == "about":
-        await query.message.edit_text(about_text, reply_markup=keyboard_main_menu)
-    elif query.data == "support":
-        await query.message.edit_text(support_text, reply_markup=keyboard_main_menu)
-    elif query.data == "advertise":
-        await query.message.edit_text(advertise_text, reply_markup=keyboard_main_menu)
+    if query.data == "channel1":
+        channel = CHANNEL_1_ID
+        info = channel_texts[channel]
+    elif query.data == "channel2":
+        channel = CHANNEL_2_ID
+        info = channel_texts[channel]
+    else:
+        return
+
+    # پیام لینک مستقیم کانال (دقیقاً مثل نمونه عکس)
+    channel_link = info["link_url"]
+    await context.bot.send_message(
+        chat_id,
+        f"{info['link_text']}\n\n{channel_link}\n\n(کلیک کن و عضو شو 👑)",
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("عضویت در کانال", url=channel_link)]])
+    )
+
+    # پیام بعد از عضویت
+    await query.message.edit_text(
+        f"🎉 <b>{info['name']}</b> عضویت در کانال موفقت‌آمیز!\n\n"
+        "حالا می‌تونی از خدمات ربات استفاده کنی 👑\n\n"
+        "برای عضویت در کانال روی دکمه زیر کلیک کن:",
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("عضویت در کانال", url=channel_link)]])
+    )
 
 async def check_membership(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.message.from_user
-    chat_member = await context.bot.get_chat_member(CHANNEL_ID, user.id)
+    chat_id = update.message.chat_id
 
-    if chat_member.status not in ["member", "administrator", "creator"]:
+    # چک عضویت در هر دو کانال
+    all_member = True
+    for ch_id in [CHANNEL_1_ID, CHANNEL_2_ID]:
+        try:
+            member = await context.bot.get_chat_member(ch_id, user.id)
+            if member.status not in ["member", "administrator", "creator"]:
+                all_member = False
+                break
+        except:
+            all_member = False
+            break
+
+    if not all_member:
         await update.message.reply_text(
-            "متأسفانه هنوز عضو کانال نیستی!\n"
-            "لطفاً در کانال عضو شو و دوباره از /start بزن.",
+            "متأسفانه هنوز عضو هر دو کانال نیستی!\n"
+            "لطفاً در هر دو کانال عضو شو و دوباره از /start بزن.",
             reply_markup=keyboard_step1
         )
     else:
