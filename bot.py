@@ -12,13 +12,10 @@ TOKEN = "8896259846:AAHmFVAugdagw87BReMk6XG4Y0A76zb4ZYY"
 CHANNEL_ID = "RemixEmpire2026"
 SUPPORT_ID = "@Yilvf"
 
-# Keyboard اصلی - دقیقاً طبق خواسته‌ت
-channel_btn = InlineKeyboardButton("کانال : 𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑 | امپراتوری ریمیکس", url="https://t.me/RemixEmpire2026")
-check_btn = InlineKeyboardButton("تایید عضویت", callback_data="check")
-
+# Keyboard اصلی (برای بعد از کلیک روی «تایید عضویت»)
 keyboard = InlineKeyboardMarkup([
-    [channel_btn],
-    [check_btn]
+    [InlineKeyboardButton("کانال : 𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑 | امپراتوری ریمیکس", url="https://t.me/RemixEmpire2026")],
+    [InlineKeyboardButton("تایید عضویت", callback_data="check")]
 ])
 
 # متن شروع ربات
@@ -27,7 +24,7 @@ start_text = (
     "برای تجربه کامل، لطفاً در کانال عضو شوید."
 )
 
-# متن‌های خوشامدگویی
+# متن‌های خوشامدگویی (دقیقاً طبق خواسته‌ت)
 welcome_text = (
     "به امپراتوری صدا خوش آمدید\n\n"
     "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
@@ -45,7 +42,7 @@ about_text = (
 )
 
 support_text = (
-    "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
+    "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
     "امپراتوری ریمیکس‌های خاص\n\n"
     "همه روزه ۲۴ ساعته آماده پاسخ به شما هستیم\n\n"
     "سوال، پیشنهاد یا هر کمکی لازم؟\n\n"
@@ -91,62 +88,22 @@ async def check_membership(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=keyboard
         )
     else:
-        # ✅ SERVICE SECTION (دقیقاً همان خدماتی که ربات قبلاً انجام می‌داد)
-        about_text = (
-            "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
-            "امپراتوری ریمیکس‌های خاص\n\n"
-            "خلق ریمیکس‌های خلاقانه و باکیفیت\n\n"
-            "برای طرفداران واقعی موسیقی\n\n"
-            "هر روز نوآوری و انرژی\n\n"
-            "به امپراتوری ما بپیوندید 👑"
-        )
-
-        support_text = (
-            "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
-            "امپراتوری ریمیکس‌های خاص\n\n"
-            "همه روزه ۲۴ ساعته آماده پاسخ به شما هستیم\n\n"
-            "سوال، پیشنهاد یا هر کمکی لازم؟\n\n"
-            "فوری کمکت می‌کنیم 👑\n\n"
-            f"ایدی پشتیبانی : {SUPPORT_ID}"
-        )
-
-        advertise_text = (
-            "برای هماهنگی و تبلیغات به ایدی زیر پیام دهید 👑\n\n"
-            f"{SUPPORT_ID}"
-        )
-
-        # Keyboard برای بعد از عضویت
+        # مرحله بعدی: لیست دکمه‌ها دقیقاً طبق خواسته‌ت
         service_keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("درباره ما", callback_data="about_service")],
-            [InlineKeyboardButton("پشتیبانی", callback_data="support_service")],
-            [InlineKeyboardButton("تبلیغات", callback_data="advertise_service")]
+            [InlineKeyboardButton("کانال : 𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑 | امپراتوری ریمیکس", url="https://t.me/RemixEmpire2026")],
+            [InlineKeyboardButton("تایید عضویت", callback_data="check")],
+            [InlineKeyboardButton("درباره ما", callback_data="about")],
+            [InlineKeyboardButton("پشتیبانی", callback_data="support")],
+            [InlineKeyboardButton("تبلیغات", callback_data="advertise")]
         ])
 
         await update.message.reply_text(
-            "عالی! حالا به امپراتوری خوش آمدید 🎧👑\n\n"
-            "انتخاب کنید:",
+            "به امپراتوری صدا خوش آمدید\n\n"
+            "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
+            "بهترین ریمیکس‌های خاص منتظرتم 👑\n\n"
+            "برای عضویت در کانال روی دکمه زیر کلیک کنید 👇",
             reply_markup=service_keyboard
         )
-
-
-async def button_handler_service(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-
-    if query.data == "about_service":
-        await query.message.edit_text(about_text, reply_markup=keyboard)  # keyboard اصلی
-    elif query.data == "support_service":
-        await query.message.edit_text(support_text, reply_markup=keyboard)
-    elif query.data == "advertise_service":
-        await query.message.edit_text(advertise_text, reply_markup=keyboard)
-
-
-# Keyboard اصلی برای دکمه‌های service (تغییر یافته)
-keyboard_service = InlineKeyboardMarkup([
-    [InlineKeyboardButton("درباره ما", callback_data="about_service")],
-    [InlineKeyboardButton("پشتیبانی", callback_data="support_service")],
-    [InlineKeyboardButton("تبلیغات", callback_data="advertise_service")]
-])
 
 
 def main():
@@ -154,7 +111,6 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("check", check_membership))
     app.add_handler(CallbackQueryHandler(button_handler))
-    app.add_handler(CallbackQueryHandler(button_handler_service))  # ✅ سرویس‌ها
     app.run_polling(drop_pending_updates=True)
 
 
