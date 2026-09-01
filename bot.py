@@ -12,29 +12,31 @@ TOKEN = "8896259846:AAHmFVAugdagw87BReMk6XG4Y0A76zb4ZYY"
 CHANNEL_ID = "RemixEmpire2026"
 SUPPORT_ID = "@Yilvf"
 
-# Keyboard اصلی (دقیقاً طبق خواسته‌ت - ۴ دکمه کاملاً در ردیف‌ها)
-channel_btn = InlineKeyboardButton("عضویت در کانال", url="https://t.me/RemixEmpire2026")
+# Keyboard اصلی - دقیقاً طبق خواسته‌ت (دو دکمه کاملاً در ردیف‌های جدا)
+channel_btn = InlineKeyboardButton("کانال : 𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑 | امپراتوری ریمیکس", url="https://t.me/RemixEmpire2026")
 check_btn = InlineKeyboardButton("تایید عضویت", callback_data="check")
-about_btn = InlineKeyboardButton("درباره ما", callback_data="about")
-support_btn = InlineKeyboardButton("پشتیبانی", callback_data="support")
 
 keyboard = InlineKeyboardMarkup([
     [channel_btn],
-    [check_btn],
-    [about_btn],
-    [support_btn]
+    [check_btn]
 ])
+
+# متن شروع ربات
+start_text = (
+    "سلام! 👋\nبه امپراتوری ریمیکس خوش آمدید 🎧👑\n\n"
+    "برای تجربه کامل، لطفاً در کانال عضو شوید."
+)
 
 # متن‌های خوشامدگویی
 welcome_text = (
     "به امپراتوری صدا خوش آمدید\n\n"
-    "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
+    "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
     "بهترین ریمیکس‌های خاص منتظرتم 👑\n\n"
     "برای عضویت در کانال روی دکمه زیر کلیک کنید 👇"
 )
 
 about_text = (
-    "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
+    "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
     "امپراتوری ریمیکس‌های خاص\n\n"
     "خلق ریمیکس‌های خلاقانه و باکیفیت\n\n"
     "برای طرفداران واقعی موسیقی\n\n"
@@ -43,7 +45,7 @@ about_text = (
 )
 
 support_text = (
-    "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
+    "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
     "امپراتوری ریمیکس‌های خاص\n\n"
     "همه روزه ۲۴ ساعته آماده پاسخ به شما هستیم\n\n"
     "سوال، پیشنهاد یا هر کمکی لازم؟\n\n"
@@ -58,10 +60,8 @@ advertise_text = (
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # متن شروع ربات (اصلی)
     await update.message.reply_text(
-        "سلام! 👋\nبه امپراتوری ریمیکس خوش آمدید 🎧👑\n\n"
-        "برای تجربه کامل، لطفاً در کانال عضو شوید.",
+        start_text,
         reply_markup=keyboard
     )
 
