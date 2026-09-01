@@ -12,10 +12,17 @@ TOKEN = "8896259846:AAHmFVAugdagw87BReMk6XG4Y0A76zb4ZYY"
 CHANNEL_ID = "RemixEmpire2026"
 SUPPORT_ID = "@Yilvf"
 
-# Keyboard اصلی (برای بعد از کلیک روی «تایید عضویت»)
+# Keyboard اصلی (دقیقاً ۴ دکمه کاملاً در ردیف‌های جدا - هر دکمه روی یک خط)
+channel_btn = InlineKeyboardButton("𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑 | امپراتوری ریمیکس", url="https://t.me/RemixEmpire2026")
+check_btn = InlineKeyboardButton("تایید عضویت", callback_data="check")
+about_btn = InlineKeyboardButton("درباره ما", callback_data="about")
+support_btn = InlineKeyboardButton("پشتیبانی", callback_data="support")
+
 keyboard = InlineKeyboardMarkup([
-    [InlineKeyboardButton("کانال : 𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑 | امپراتوری ریمیکس", url="https://t.me/RemixEmpire2026")],
-    [InlineKeyboardButton("تایید عضویت", callback_data="check")]
+    [channel_btn],
+    [check_btn],
+    [about_btn],
+    [support_btn]
 ])
 
 # متن شروع ربات
@@ -42,7 +49,7 @@ about_text = (
 )
 
 support_text = (
-    "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
+    "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
     "امپراتوری ریمیکس‌های خاص\n\n"
     "همه روزه ۲۴ ساعته آماده پاسخ به شما هستیم\n\n"
     "سوال، پیشنهاد یا هر کمکی لازم؟\n\n"
@@ -88,20 +95,24 @@ async def check_membership(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=keyboard
         )
     else:
-        # مرحله بعدی: لیست دکمه‌ها دقیقاً طبق خواسته‌ت
-        service_keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("کانال : 𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑 | امپراتوری ریمیکس", url="https://t.me/RemixEmpire2026")],
-            [InlineKeyboardButton("تایید عضویت", callback_data="check")],
-            [InlineKeyboardButton("درباره ما", callback_data="about")],
-            [InlineKeyboardButton("پشتیبانی", callback_data="support")],
-            [InlineKeyboardButton("تبلیغات", callback_data="advertise")]
-        ])
-
-        await update.message.reply_text(
+        # متن خوشامدگویی دقیقاً همان متن اصلی
+        welcome_text = (
             "به امپراتوری صدا خوش آمدید\n\n"
             "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
             "بهترین ریمیکس‌های خاص منتظرتم 👑\n\n"
-            "برای عضویت در کانال روی دکمه زیر کلیک کنید 👇",
+            "برای عضویت در کانال روی دکمه زیر کلیک کنید 👇"
+        )
+
+        # Keyboard برای بعد از عضویت (دقیقاً همان ۴ دکمه اصلی)
+        service_keyboard = InlineKeyboardMarkup([
+            [InlineKeyboardButton("𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑 | امپراتوری ریمیکس", url="https://t.me/RemixEmpire2026")],
+            [InlineKeyboardButton("تایید عضویت", callback_data="check")],
+            [InlineKeyboardButton("درباره ما", callback_data="about")],
+            [InlineKeyboardButton("پشتیبانی", callback_data="support")]
+        ])
+
+        await update.message.reply_text(
+            welcome_text,
             reply_markup=service_keyboard
         )
 
