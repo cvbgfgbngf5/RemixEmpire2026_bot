@@ -16,14 +16,14 @@ SUPPORT_ID = "@Yilvf"
 channel_btn = InlineKeyboardButton("عضویت در کانال", url=f"https://t.me/{CHANNEL_ID}")
 about_btn = InlineKeyboardButton("درباره ما", callback_data="about")
 support_btn = InlineKeyboardButton("پشتیبانی", callback_data="support")
-advertise_btn = InlineKeyboardButton("تبلیغات", url=f"https://t.me/{SUPPORT_ID}")   # <--- دکمه تبلیغ جدید
+advertise_btn = InlineKeyboardButton("تبلیغات", url=f"https://t.me/{SUPPORT_ID}")   # دکمه تبلیغ
 
 keyboard = InlineKeyboardMarkup([
     [channel_btn, advertise_btn],
     [about_btn, support_btn]
 ])
 
-# متن‌های خوشامدگویی (دقیقاً طبق خواسته‌ات)
+# متن‌های خوشامدگویی
 welcome_text = (
     "به امپراتوری صدا خوش آمدید\n\n"
     "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
@@ -74,7 +74,16 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data == "about":
         await query.message.edit_text(about_text, reply_markup=keyboard)
     elif query.data == "support":
-        await query.message.edit_text(support_text, reply_markup=keyboard)
+        # === پشتیبانی به صورت پی‌وی (DM) ===
+        support_link = f"https://t.me/{SUPPORT_ID.lstrip('@')}"
+        await query.message.edit_text(
+            f"پشتیبانی رو باز کن 👑\n\n"
+            f"لینک: {support_link}\n\n"
+            "برای ارتباط فوری از دکمه زیر استفاده کن:",
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("باز کردن پشتیبانی", url=support_link)
+            ]])
+        )
     elif query.data == "advertise":
         await query.message.edit_text(advertise_text, reply_markup=keyboard)
 
