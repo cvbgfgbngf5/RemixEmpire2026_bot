@@ -49,7 +49,7 @@ about_text = (
 )
 
 support_text = (
-    "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
+    "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
     "امپراتوری ریمیکس‌های خاص\n\n"
     "همه روزه ۲۴ ساعته آماده پاسخ به شما هستیم\n\n"
     "سوال، پیشنهاد یا هر کمکی لازم؟\n\n"
@@ -95,17 +95,17 @@ async def check_membership(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=keyboard
         )
     else:
-        # متن خوشامدگویی دقیقاً همان متن اصلی
+        # ✅ متن خوشامدگویی دقیقاً همان متن اصلی
         welcome_text = (
             "به امپراتوری صدا خوش آمدید\n\n"
-            "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
+            "𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
             "بهترین ریمیکس‌های خاص منتظرتم 👑\n\n"
             "برای عضویت در کانال روی دکمه زیر کلیک کنید 👇"
         )
 
         # Keyboard برای بعد از عضویت (دقیقاً همان ۴ دکمه اصلی)
         service_keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑 | امپراتوری ریمیکس", url="https://t.me/RemixEmpire2026")],
+            [InlineKeyboardButton("𝑹𝒆𝒆𝒎𝒙 𝑬𝒆𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑 | امپراتوری ریمیکس", url="https://t.me/RemixEmpire2026")],
             [InlineKeyboardButton("تایید عضویت", callback_data="check")],
             [InlineKeyboardButton("درباره ما", callback_data="about")],
             [InlineKeyboardButton("پشتیبانی", callback_data="support")]
