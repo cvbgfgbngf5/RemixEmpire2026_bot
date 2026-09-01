@@ -12,22 +12,23 @@ TOKEN = "8896259846:AAHmFVAugdagw87BReMk6XG4Y0A76zb4ZYY"
 CHANNEL_ID = "RemixEmpire2026"
 SUPPORT_ID = "@Yilvf"
 
-# Keyboard اصلی (دقیقاً طبق خواسته‌ت)
+# Keyboard اصلی (دقیقاً طبق خواسته‌ت - ۴ دکمه کاملاً در ردیف‌ها)
 channel_btn = InlineKeyboardButton("عضویت در کانال", url="https://t.me/RemixEmpire2026")
 check_btn = InlineKeyboardButton("تایید عضویت", callback_data="check")
 about_btn = InlineKeyboardButton("درباره ما", callback_data="about")
 support_btn = InlineKeyboardButton("پشتیبانی", callback_data="support")
-advertise_btn = InlineKeyboardButton("تبلیغات", callback_data="advertise")
 
 keyboard = InlineKeyboardMarkup([
-    [channel_btn, check_btn],
-    [about_btn, support_btn]
+    [channel_btn],
+    [check_btn],
+    [about_btn],
+    [support_btn]
 ])
 
 # متن‌های خوشامدگویی
 welcome_text = (
     "به امپراتوری صدا خوش آمدید\n\n"
-    "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
+    "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
     "بهترین ریمیکس‌های خاص منتظرتم 👑\n\n"
     "برای عضویت در کانال روی دکمه زیر کلیک کنید 👇"
 )
