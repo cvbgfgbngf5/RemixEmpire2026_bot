@@ -12,23 +12,35 @@ TOKEN = "8896259846:AAHmFVAugdagw87BReMk6XG4Y0A76zb4ZYY"
 CHANNEL_ID = "RemixEmpire2026"
 SUPPORT_ID = "@Yilvf"
 
-# Keyboard اصلی
-channel_btn = InlineKeyboardButton("عضویت در کانال", url=f"https://t.me/{CHANNEL_ID}")
+# Keyboard اصلی (مرحله اول - دو دکمه کنار هم)
+channel_btn = InlineKeyboardButton("عضویت در کانال", callback_data="join_channel")
+main_menu_btn = InlineKeyboardButton("ادامه به منوی اصلی", callback_data="main_menu")
+
+keyboard_main = InlineKeyboardMarkup([
+    [channel_btn],
+    [main_menu_btn]
+])
+
+# Keyboard منوی اصلی (همه دکمه‌ها در یک ردیف)
 about_btn = InlineKeyboardButton("درباره ما", callback_data="about")
 support_btn = InlineKeyboardButton("پشتیبانی", callback_data="support")
 advertise_btn = InlineKeyboardButton("تبلیغات", callback_data="advertise")
 
-keyboard = InlineKeyboardMarkup([
-    [channel_btn, advertise_btn],
-    [about_btn, support_btn]
+keyboard_main_menu = InlineKeyboardMarkup([
+    [about_btn, support_btn, advertise_btn]
 ])
 
-# متن‌های خوشامدگویی (دقیقاً طبق خواسته‌ات)
+# متن‌های خوشامدگویی و توضیحات
 welcome_text = (
     "به امپراتوری صدا خوش آمدید\n\n"
     "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
     "بهترین ریمیکس‌های خاص منتظرتم 👑\n\n"
-    "برای عضویت در کانال روی دکمه زیر کلیک کنید 👇"
+    "برای شروع، روی دکمه 'عضویت در کانال' کلیک کنید 👇"
+)
+
+join_text = (
+    "عالی! حالا برو تو کانال عضو شو 👑\n"
+    "وقتی عضو شدی، دوباره اینجا کلیک کن تا به منوی اصلی برسی 👑"
 )
 
 about_text = (
@@ -56,27 +68,31 @@ advertise_text = (
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "سلام! 👋\nبه امپراتوری ریمیکس خوش آمدید 🎧👑\n\n"
-        "برای تجربه کامل، لطفاً در کانال عضو شوید.",
-        reply_markup=keyboard
+        welcome_text,
+        reply_markup=keyboard_main
     )
 
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
-    if query.data == "channel":
+    if query.data == "join_channel":
         await query.message.edit_text(
-            "عالی! حالا برو تو کانال عضو شو 👑\n"
-            "وقتی عضو شدی دوباره اینجا کلیک کن.",
-            reply_markup=keyboard
+            join_text,
+            reply_markup=keyboard_main_menu
+        )
+    elif query.data == "main_menu":
+        await query.message.edit_text(
+            "به امپراتوری ریمیکس خوش آمدید 🎧👑\n\n"
+            "برای تجربه کامل، لطفاً در کانال عضو شوید.",
+            reply_markup=keyboard_main_menu
         )
     elif query.data == "about":
-        await query.message.edit_text(about_text, reply_markup=keyboard)
+        await query.message.edit_text(about_text, reply_markup=keyboard_main_menu)
     elif query.data == "support":
-        await query.message.edit_text(support_text, reply_markup=keyboard)
+        await query.message.edit_text(support_text, reply_markup=keyboard_main_menu)
     elif query.data == "advertise":
-        await query.message.edit_text(advertise_text, reply_markup=keyboard)
+        await query.message.edit_text(advertise_text, reply_markup=keyboard_main_menu)
 
 async def check_membership(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.message.from_user
@@ -86,10 +102,13 @@ async def check_membership(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             "متأسفانه هنوز عضو کانال نیستی!\n"
             "لطفاً در کانال عضو شو و دوباره از /start بزن.",
-            reply_markup=keyboard
+            reply_markup=keyboard_main
         )
     else:
-        await update.message.reply_text("عالی! حالا به امپراتوری خوش آمدید 🎧👑", reply_markup=keyboard)
+        await update.message.reply_text(
+            "عالی! حالا به امپراتوری خوش آمدید 🎧👑",
+            reply_markup=keyboard_main_menu
+        )
 
 def main():
     app = Application.builder().token(TOKEN).build()
