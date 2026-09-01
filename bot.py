@@ -14,12 +14,13 @@ SUPPORT_ID = "@Yilvf"
 
 # Keyboard اصلی (دقیقاً طبق خواسته‌ت)
 channel_btn = InlineKeyboardButton("عضویت در کانال", url="https://t.me/RemixEmpire2026")
+check_btn = InlineKeyboardButton("تایید عضویت", callback_data="check")
 about_btn = InlineKeyboardButton("درباره ما", callback_data="about")
 support_btn = InlineKeyboardButton("پشتیبانی", callback_data="support")
 advertise_btn = InlineKeyboardButton("تبلیغات", callback_data="advertise")
 
 keyboard = InlineKeyboardMarkup([
-    [channel_btn, advertise_btn],
+    [channel_btn, check_btn],
     [about_btn, support_btn]
 ])
 
@@ -32,7 +33,7 @@ welcome_text = (
 )
 
 about_text = (
-    "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
+    "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
     "امپراتوری ریمیکس‌های خاص\n\n"
     "خلق ریمیکس‌های خلاقانه و باکیفیت\n\n"
     "برای طرفداران واقعی موسیقی\n\n"
@@ -41,7 +42,7 @@ about_text = (
 )
 
 support_text = (
-    "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
+    "𝑹𝒆𝒆𝒎𝒊𝒙 𝑬𝒆𝒆𝒎𝒑𝒊𝒓𝒆 🎧👑\n\n"
     "امپراتوری ریمیکس‌های خاص\n\n"
     "همه روزه ۲۴ ساعته آماده پاسخ به شما هستیم\n\n"
     "سوال، پیشنهاد یا هر کمکی لازم؟\n\n"
@@ -74,6 +75,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.edit_text(support_text, reply_markup=keyboard)
     elif query.data == "advertise":
         await query.message.edit_text(advertise_text, reply_markup=keyboard)
+    elif query.data == "check":
+        await check_membership(update, context)
 
 
 async def check_membership(update: Update, context: ContextTypes.DEFAULT_TYPE):
